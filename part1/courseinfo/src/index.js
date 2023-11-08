@@ -12,9 +12,9 @@ const App = () => {
 
   return (
     <div>
-      <Header course={course} />
-      <Content ... />
-      <Total ... />
+      <Part ... />
+      <Part ... />
+      <Part ... />
     </div>
   );
 };
