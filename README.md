@@ -28,3 +28,16 @@ GraphQL, a modern alternative to REST APIs is also covered by this course. As we
 ### [Part 9 - Typescript](./part9)
 
 -->
+
+<!--- 
+Structure info example
+    part0
+    part1
+    courseinfo
+    unicafe
+    anecdotes
+    part2
+    courseinfo
+    phonebook
+    countries
+-->
