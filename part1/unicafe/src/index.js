@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 
 const Button = ({ onClick, text }) => {
   return <button onClick={onClick}>{text}</button>;
@@ -26,15 +26,17 @@ const Statistics = (props) => {
   }
 
   return (
-    <div>
-      <h2>Statistics</h2>
-      <StatisticLine text="Good" value={good} />
-      <StatisticLine text="Neutral" value={neutral} />
-      <StatisticLine text="Bad" value={bad} />
-      <StatisticLine text="All" value={all} />
-      <StatisticLine text="Average" value={average} />
-      <StatisticLine text="Positive" value={positive} />
-    </div>
+    <table>
+      <thead>Statistics</thead>
+      <tbody>
+          <tr><StatisticLine text="Good" value={good} /></tr>
+          <tr><StatisticLine text="Neutral" value={neutral} /></tr>
+          <tr><StatisticLine text="Bad" value={bad} /></tr>
+          <tr><StatisticLine text="All" value={all} /></tr>
+          <tr><StatisticLine text="Average" value={average} /></tr>
+          <tr><StatisticLine text="Positive" value={positive} /></tr>
+      </tbody>
+    </table>
   );
 };
 const App = () => {
@@ -77,5 +79,5 @@ const App = () => {
     </div>
   );
 };
-
-ReactDOM.render(<App />, document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
