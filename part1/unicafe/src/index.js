@@ -8,9 +8,13 @@ const Statistics = (props) => {
   const average = all === 0 ? 0 : (good - bad) / all;
   const positive = all === 0 ? 0 : (good / all) * 100;
 
+  if (all === 0) {
+    return <p>No feedback given yet.</p>;
+  }
+
   return (
     <div>
-      <h2>Feedback Statistics</h2>
+      <h2>Statistics</h2>
       <p>Good: {good}</p>
       <p>Neutral: {neutral}</p>
       <p>Bad: {bad}</p>
@@ -45,7 +49,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Unicafe Feedback App</h1>
+      <h1>Give Feedback</h1>
       <div>
         <button onClick={() => handleFeedback('good')}>Good</button>
         <button onClick={() => handleFeedback('neutral')}>Neutral</button>
