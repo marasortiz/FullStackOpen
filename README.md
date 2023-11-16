@@ -10,9 +10,9 @@ GraphQL, a modern alternative to REST APIs is also covered by this course. As we
 
 ### [Part 1 - Introduction to React](./part1)
 
-<!--- 
 ### [Part 2 - Communicating with server](./part2)
 
+<!--- 
 ### [Part 3 - Programming a server with NodeJS and Express](./part3)
 
 ### [Part 4 - Testing Express servers, user administration](./part4)
