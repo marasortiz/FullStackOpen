@@ -1,39 +1,33 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import Note from "./components/note";
 
-const App = () => {
-  const [notes, setNotes] = useState([]);
+const App = ( props ) => {
+  const [notes, setNotes] = useState(props.notes || []);
   const [newNote, setNewNote] = useState("");
-  const [showAll, setShowAll] = useState(false);
-
-  useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/notes").then((response) => {
-      console.log("promise fulfilled");
-      setNotes(response.data);
-    });
-  }, []);
-
-  console.log("render", notes.length, "notes");
+  const [showAll, setShowAll] = useState(true);
 
   const addNote = (event) => {
     event.preventDefault();
     const noteObject = {
       content: newNote,
-      important: Math.random() > 0.5,
+      date: new Date().toISOString(),
+      important: Math.random() < 0.5,
       id: notes.length + 1,
     };
 
     setNotes(notes.concat(noteObject));
     setNewNote("");
+    console.log("button clicked", event.target);
   };
 
   const handleNoteChange = (event) => {
+    console.log(event.target.value);
     setNewNote(event.target.value);
   };
 
-  const notesToShow = showAll ? notes : notes.filter((note) => note.important);
+  const notesToShow = showAll
+    ? notes
+    : notes.filter((note) => note.important === true);
 
   return (
     <div>
@@ -44,11 +38,12 @@ const App = () => {
         </button>
       </div>
       <ul>
-        <ul>
-          {notesToShow.map((note) => (
-            <Note key={note.id} note={note} />
-          ))}
-        </ul>
+        {notesToShow.map((note) => (
+          <Note key={note.id} note={note} />
+        ))}
+        {/* {notes.map((note) => (
+          <Note key={note.id} note={note} />
+        ))} */}
       </ul>
       <form onSubmit={addNote}>
         <input value={newNote} onChange={handleNoteChange} />
@@ -57,5 +52,4 @@ const App = () => {
     </div>
   );
 };
-
-export default App;
+export default App
