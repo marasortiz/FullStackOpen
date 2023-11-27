@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+
+import Country from './components/countryInfo';
+
 import axios from "axios";
 
 const App = () => {
@@ -6,6 +9,8 @@ const App = () => {
   const [filter, setFilter] = useState("");
   const [filterCountries, setFilterCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
+
+  const api_key = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     axios.get("https://restcountries.com/v3.1/all").then((response) => {
@@ -42,20 +47,7 @@ const App = () => {
       </div>
       {selectedCountry ? (
         <div>
-          <h1>{selectedCountry.name.common}</h1>
-          <p>capital {selectedCountry.capital}</p>
-          <p>population {selectedCountry.population}</p>
-          <h3>languages</h3>
-          <ul>
-            {Object.values(selectedCountry.languages).map((lang, i) => (
-              <li key={i}>{lang}</li>
-            ))}
-          </ul>
-          <img
-            style={{ width: 100 }}
-            src={selectedCountry.flags.png}
-            alt="country flag"
-          />
+          <Country country={selectedCountry} />
           <button onClick={handleCloseCountry}>Close</button>
         </div>
       ) : filterCountries.length <= 10 ? (
@@ -63,20 +55,7 @@ const App = () => {
           filterCountries.map((e) => {
             return (
               <div key={e.cca3}>
-                <h1>{e.name.common}</h1>
-                <p>capital {e.capital}</p>
-                <p>population {e.population}</p>
-                <h3>languages</h3>
-                <ul>
-                  {Object.values(e.languages).map((lang, i) => (
-                    <li key={i}>{lang}</li>
-                  ))}
-                </ul>
-                <img
-                  style={{ width: 100 }}
-                  src={e.flags.png}
-                  alt="country flag"
-                />
+                <Country country={e}/>
               </div>
             );
           })

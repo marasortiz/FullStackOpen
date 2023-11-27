@@ -5,7 +5,7 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [filter, setFilter] = useState("");
   const [filterCountries, setFilterCountries] = useState([]);
-  const [showCountry, setShowCountry] = useState({});
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
     axios.get("https://restcountries.com/v3.1/all").then((response) => {
@@ -14,7 +14,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    
     setFilterCountries(
       countries.filter(
         (country) =>
@@ -27,13 +26,39 @@ const App = () => {
     setFilter(e.target.value);
   };
 
+  const handleShowCountry = (country) => {
+    setSelectedCountry(country);
+  };
+
+  const handleCloseCountry = () => {
+    setSelectedCountry(null);
+  };
+
   return (
     <div>
       <div>
         filter shown with{" "}
         <input onChange={handleFilterChange} value={filter}></input>
       </div>
-      {filterCountries.length <= 10 ? (
+      {selectedCountry ? (
+        <div>
+          <h1>{selectedCountry.name.common}</h1>
+          <p>capital {selectedCountry.capital}</p>
+          <p>population {selectedCountry.population}</p>
+          <h3>languages</h3>
+          <ul>
+            {Object.values(selectedCountry.languages).map((lang, i) => (
+              <li key={i}>{lang}</li>
+            ))}
+          </ul>
+          <img
+            style={{ width: 100 }}
+            src={selectedCountry.flags.png}
+            alt="country flag"
+          />
+          <button onClick={handleCloseCountry}>Close</button>
+        </div>
+      ) : filterCountries.length <= 10 ? (
         filterCountries.length === 1 ? (
           filterCountries.map((e) => {
             return (
@@ -59,7 +84,7 @@ const App = () => {
           filterCountries.map((e) => (
             <p key={e.cca3}>
               {e.name.common}{" "}
-              <button onClick={() => setShowCountry(country)}>show</button>
+              <button onClick={() => handleShowCountry(e)}>show</button>
             </p>
           ))
         )
