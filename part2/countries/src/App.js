@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Country from './components/countryInfo';
+import Weather from "./components/weather";
 
 import axios from "axios";
 
@@ -9,8 +10,6 @@ const App = () => {
   const [filter, setFilter] = useState("");
   const [filterCountries, setFilterCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
-
-  const api_key = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     axios.get("https://restcountries.com/v3.1/all").then((response) => {
@@ -48,6 +47,7 @@ const App = () => {
       {selectedCountry ? (
         <div>
           <Country country={selectedCountry} />
+          <Weather location={selectedCountry} />
           <button onClick={handleCloseCountry}>Close</button>
         </div>
       ) : filterCountries.length <= 10 ? (
@@ -55,7 +55,8 @@ const App = () => {
           filterCountries.map((e) => {
             return (
               <div key={e.cca3}>
-                <Country country={e}/>
+                <Country country={e} />
+                <Weather location={e} />
               </div>
             );
           })
