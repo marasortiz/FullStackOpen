@@ -29,13 +29,14 @@ const PersonForm = ({
 };
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
 
+  const [persons, setPersons] = useState([]);
+  
   const [newName, setNewName] = useState("enter name...");
   const [newNumber, setNewNumber] = useState("enter number...");
   const [newId, setNewId] = useState("");
   const [filter, setFilter] = useState("");
-
+  
   useEffect(() => {
     console.log("effect");
     axios.get("http://localhost:3001/persons").then((response) => {
@@ -56,19 +57,18 @@ const App = () => {
     if (persons.some((person) => person.name === newPerson.name)) {
       alert(`${newPerson.name} is already added to the phonebook`);
     } else {
-      axios
-        .post("http://localhost:3001/persons", newPerson)
-        .then((response) => setPersons(persons.concat(response.data)));
-      /* setPersons(persons.concat(newPerson)); */
+      setPersons(persons.concat(newPerson));
       setNewName("enter name...");
       setNewNumber("enter number...");
       setNewId("");
     }
   };
+  
 
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(filter.toLowerCase())
   );
+
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);

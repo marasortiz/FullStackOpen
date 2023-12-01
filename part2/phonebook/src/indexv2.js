@@ -12,3 +12,14 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+/* axios.get("http://localhost:3001/persons").then((response) => {
+  const persons = response.data;
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(
+    <React.StrictMode>
+      <App persons={persons} />
+    </React.StrictMode>
+  );
+
+}); */
