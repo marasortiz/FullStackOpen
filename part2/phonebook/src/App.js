@@ -43,14 +43,42 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    const newPerson = {
-      name: newName,
-      number: newNumber,
-    };
+    const existingPerson = persons.find((person) => person.name === newName);
 
-    personService
-      .create(newPerson)
-      .then((returnedPerson) => setPersons(persons.concat(returnedPerson)));
+    if (existingPerson) {
+      const confirmed = window.confirm(
+        `${newName} is already added to the phonebook, replace the old number with a new one?`
+      );
+
+      if (confirmed) {
+        const updatedPerson = { ...existingPerson, number: newNumber };
+
+        personService
+          .update(existingPerson.id, updatedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id === existingPerson.id ? returnedPerson : person
+              )
+            );
+          })
+          .catch((error) => {
+            console.error("Error updating person:", error);
+          });
+      }
+    } else {
+      const newPerson = {
+        name: newName,
+        number: newNumber,
+      };
+
+      personService
+        .create(newPerson)
+        .then((returnedPerson) => setPersons(persons.concat(returnedPerson)))
+        .catch((error) => {
+          console.error("Error adding person:", error);
+        });
+    }
 
     setNewName("enter name...");
     setNewNumber("enter number...");
