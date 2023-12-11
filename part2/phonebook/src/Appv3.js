@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import Filter from "./components/filter";
 import PhoneBook from "./components/phonebook";
 import personService from "./services/person";
-import Notification from "./components/notification";
 
 import "./App.css";
 
@@ -34,9 +32,6 @@ const App = () => {
   const [newName, setNewName] = useState("enter name...");
   const [newNumber, setNewNumber] = useState("enter number...");
   const [filter, setFilter] = useState("");
-
-  const [addedMessage, setAddedMessage] = useState(null);
-  const [addedStatus, setStatusMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -75,12 +70,6 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-
-      setAddedMessage(`'${newName}' added`);
-      setStatusMessage('added');
-      setTimeout(() => {
-        setAddedMessage(null);
-      }, 5000);
 
       personService
         .create(newPerson)
@@ -128,7 +117,6 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      {<Notification message={addedMessage} state={addedStatus}/>}
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h2>add a new</h2>
       <PersonForm
