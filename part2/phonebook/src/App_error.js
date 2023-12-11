@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Filter from "./components/filter";
 import PhoneBook from "./components/phonebook";
@@ -64,19 +65,9 @@ const App = () => {
                 person.id === existingPerson.id ? returnedPerson : person
               )
             );
-            setAddedMessage(`'${newName}' updated`);
-            setStatusMessage("added");
-            setTimeout(() => {
-              setAddedMessage(null);
-            }, 5000);
           })
           .catch((error) => {
             console.error("Error updating person:", error);
-            setAddedMessage(`Updating '${newName}' failed`);
-            setStatusMessage("error");
-            setTimeout(() => {
-              setAddedMessage(null);
-            }, 5000);
           });
       }
     } else {
@@ -86,7 +77,7 @@ const App = () => {
       };
 
       setAddedMessage(`'${newName}' added`);
-      setStatusMessage("added");
+      setStatusMessage('added');
       setTimeout(() => {
         setAddedMessage(null);
       }, 5000);
@@ -96,11 +87,6 @@ const App = () => {
         .then((returnedPerson) => setPersons(persons.concat(returnedPerson)))
         .catch((error) => {
           console.error("Error adding person:", error);
-          setAddedMessage(`Adding '${newName}' failed`);
-          setStatusMessage("error");
-          setTimeout(() => {
-            setAddedMessage(null);
-          }, 5000);
         });
     }
 
@@ -120,30 +106,21 @@ const App = () => {
     setFilter(event.target.value);
   };
 
-const handleDelete = (id, name) => {
-  const confirmed = window.confirm(`Delete ${name}?`);
+  const handleDelete = (id, name) => {
+    const confirmed = window.confirm(`Delete ${name}?`);
 
-  if (confirmed) {
-    personService
-      .remove(id)
-      .then(() => {
-        setPersons(persons.filter((person) => person.id !== id));
-        setAddedMessage(`'${name}' deleted`);
-        setStatusMessage("error");
-        setTimeout(() => {
-          setAddedMessage(null);
-        }, 5000);
-      })
-      .catch((error) => {
-        console.error("Error deleting person:", error);
-        setAddedMessage(`Deleting '${name}' failed. Person not found.`);
-        setStatusMessage("error");
-        setTimeout(() => {
-          setAddedMessage(null);
-        }, 5000);
-      });
-  }
-};
+    if (confirmed) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+        })
+        .catch((error) => {
+          console.error("Error deleting person:", error);
+        });
+    }
+  };
+
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -151,7 +128,7 @@ const handleDelete = (id, name) => {
   return (
     <div>
       <h2>Phonebook</h2>
-      {<Notification message={addedMessage} state={addedStatus} />}
+      {<Notification message={addedMessage} state={addedStatus}/>}
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h2>add a new</h2>
       <PersonForm
